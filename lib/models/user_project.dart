@@ -4,11 +4,9 @@ class Project {
   final String name, description, language;
   final DateTime updatedAt;
 
-  ///BEGIN GAMBIARRA
   String get updatedAtToString =>
       "${_putZero(updatedAt.day)}/${_putZero(updatedAt.month)}/${updatedAt.year}";
   static String _putZero(int number) => number < 10 ? "0$number" : "$number";
-  ///END GAMBIARRA
 
   static Project fromJson(Map data) => Project(
       name: data['name'],

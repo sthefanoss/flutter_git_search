@@ -4,8 +4,6 @@ import '../widgets/expanded_flat_button.dart';
 import '../constants.dart';
 import '../widgets/git_search_logo.dart';
 import '../widgets/custom_text_field.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as json;
 
 class HomePage extends StatefulWidget {
   @override
@@ -53,23 +51,7 @@ class _HomePageState extends State<HomePage> {
               flex: 4,
               child: Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
-                child: Row(
-                  children: <Widget>[
-                    ExpandedFlatButton(
-                      text: 'Ver Todos',
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () => _seeAll(context),
-                    ),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    ExpandedFlatButton(
-                      text: 'Buscar',
-                      color: Theme.of(context).accentColor,
-                      onPressed: () => _search(context),
-                    ),
-                  ],
-                ),
+                child: _generateButtons(),
               ),
             ),
           ],
@@ -77,4 +59,22 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  Widget _generateButtons() => Row(
+        children: <Widget>[
+          ExpandedFlatButton(
+            text: 'Ver Todos',
+            color: Theme.of(context).primaryColor,
+            onPressed: () => _seeAll(context),
+          ),
+          const SizedBox(
+            width: 30,
+          ),
+          ExpandedFlatButton(
+            text: 'Buscar',
+            color: Theme.of(context).accentColor,
+            onPressed: () => _search(context),
+          ),
+        ],
+      );
 }

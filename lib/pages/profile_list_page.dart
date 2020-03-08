@@ -3,11 +3,10 @@ import '../constants.dart';
 import '../widgets/user_tile.dart';
 import '../widgets/customAppBar.dart';
 import '../widgets/customFlatButton.dart';
-import '../constants.dart';
+import '../widgets/custom_separated_listview.dart';
 import '../widgets/custom_text_field.dart';
 import 'dart:convert' as json;
 import 'package:http/http.dart' as http;
-import '../models/git_user.dart';
 
 class ProfileListPage extends StatefulWidget {
   @override
@@ -106,31 +105,21 @@ class _ProfileListPageState extends State<ProfileListPage> {
               height: 20,
             ),
             Expanded(
-              child: Stack(children: [
-                ListView.separated(
-                  itemBuilder: (context, n) => UserTile(
-                    user: _users[n]['id'],
-                    avatarUrl: _users[n]['avatarUrl'],
-                    onTap: () => Navigator.of(context)
-                        .pushNamed(kProfileRoute, arguments: _users[n]['id']),
-                  ),
-                  itemCount: _users.length,
-                  separatorBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 13),
-                    child: Divider(
-                      color: Colors.black54,
-                    ),
-                  ),
+              child: CustomSeparatedListView(
+                isLoading: _isLoading,
+                itemCount: _users.length,
+                itemBuilder: (ctx, n) => UserTile(
+                  user: _users[n]['id'],
+                  avatarUrl: _users[n]['avatarUrl'],
+                  onTap: () => Navigator.of(context)
+                      .pushNamed(kProfileRoute, arguments: _users[n]['id']),
                 ),
-                if (_isLoading)
-                  Center(
-                    child: CircularProgressIndicator(),
-                  ),
-              ]),
+              ),
             ),
             CustomFlatButton(
               text: 'Ver Mais',
-              onPressed: _isLoading || (_users.length >= _totalCount&&_lastQuery.isNotEmpty)
+              onPressed: _isLoading ||
+                      (_users.length >= _totalCount && _lastQuery.isNotEmpty)
                   ? null
                   : () => _search(isNewSearch: false),
             )

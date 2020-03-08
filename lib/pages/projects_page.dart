@@ -1,5 +1,4 @@
-import 'package:atlas_flutter_test/constants.dart';
-
+import '../widgets/custom_separated_listview.dart';
 import '../widgets/customFlatButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -60,19 +59,11 @@ class _ProjectsPageState extends State<ProjectsPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Expanded(
-            child: Stack(children: [
-              ListView.separated(
-                separatorBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 13),
-                  child: Divider(
-                    color: Colors.black54,
-                  ),
-                ),
-                itemBuilder: (ctx, n) => ProjectTile(_projects[n]),
-                itemCount: _projects.length,
-              ),
-              if (_isLoading) Center(child: CircularProgressIndicator()),
-            ]),
+            child: CustomSeparatedListView(
+              isLoading: _isLoading,
+              itemCount: _projects.length,
+              itemBuilder: (ctx, n) => ProjectTile(_projects[n]),
+            ),
           ),
           CustomFlatButton(
               text: 'Ver Mais',
