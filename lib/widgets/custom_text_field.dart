@@ -10,14 +10,15 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 45,
+      height: 50,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Expanded(
             child: TextField(
               controller: controller,
-              style: TextStyle(fontSize: 15,color: Colors.black),
+              style: TextStyle(fontSize: 15, color: Colors.black),
               textInputAction: TextInputAction.search,
               onEditingComplete: onEditingComplete,
               decoration: InputDecoration(
@@ -34,7 +35,7 @@ class CustomTextField extends StatelessWidget {
                   Icons.search,
                   color: Colors.white,
                 ),
-                width: 60,
+                width: 50 * 44 / 30,
                 height: double.infinity,
                 decoration: BoxDecoration(
                     color: Theme.of(context).accentColor,

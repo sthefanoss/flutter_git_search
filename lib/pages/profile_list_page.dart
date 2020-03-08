@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/user_tile.dart';
-import '../widgets/customAppBar.dart';
-import '../widgets/customFlatButton.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/custom_flat_button.dart';
 import '../widgets/custom_separated_listview.dart';
 import '../widgets/custom_text_field.dart';
 import 'dart:convert' as json;
@@ -34,7 +34,8 @@ class _ProfileListPageState extends State<ProfileListPage> {
       _totalCount = json.jsonDecode(response.body)["total_count"];
     } else {
       if (isNewSearch) _since = 0;
-      response = await http.get('https://api.github.com/users?since=$_since');
+      response = await http
+          .get('https://api.github.com/users?since=$_since&per_page=10');
       print(response.body);
       if (response.body.isEmpty) return [];
       parsedUserList = json.jsonDecode(response.body);

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../widgets/expanded_flat_button.dart';
 import '../constants.dart';
 import '../widgets/git_search_logo.dart';
 import '../widgets/custom_text_field.dart';
+import '../widgets/custom_flat_button.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -35,24 +35,17 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
-        body: Column(
-          //   crossAxisAlignment: CrossAxisAlignment.stretch,
+        body: ListView(
           children: <Widget>[
-            Flexible(
-              flex: 5,
-              child: GitSearchLogo(),
-            ),
+            GitSearchLogo(),
             Padding(
               padding: const EdgeInsets.only(right: 30, left: 30),
               child: CustomTextField(
                   controller: _searchBoxController, showIcon: false),
             ),
-            Flexible(
-              flex: 4,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
-                child: _generateButtons(),
-              ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+              child: _generateButtons(),
             ),
           ],
         ),
@@ -61,20 +54,27 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _generateButtons() => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          ExpandedFlatButton(
-            text: 'Ver Todos',
-            color: Theme.of(context).primaryColor,
-            onPressed: () => _seeAll(context),
+          Flexible(
+            child: SizedBox(
+              width: double.infinity,
+              child: CustomFlatButton(
+                text: 'Ver Todos',
+                onPressed: () => _seeAll(context),
+              ),
+            ),
           ),
-          const SizedBox(
-            width: 30,
-          ),
-          ExpandedFlatButton(
-            text: 'Buscar',
-            color: Theme.of(context).accentColor,
-            onPressed: () => _search(context),
-          ),
+          Flexible(
+            child: SizedBox(
+              width: double.infinity,
+              child: CustomFlatButton(
+                text: 'Buscar',
+                onPressed: () => _search(context),
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+          )
         ],
       );
 }

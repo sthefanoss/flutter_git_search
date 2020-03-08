@@ -5,19 +5,17 @@ class GitSearchLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30),
+      padding: const EdgeInsets.symmetric(vertical: 40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Flexible(
-            child: Container(
-              child: CircleAvatar(
-                radius: 70,
-                backgroundColor: Colors.transparent,
-                backgroundImage: Image.asset(
-                  'assets/images/git_logo.png',
-                ).image,
-              ),
+          Container(
+            child: CircleAvatar(
+              radius: 70,
+              backgroundColor: Colors.transparent,
+              backgroundImage: Image.asset(
+                'assets/images/git_logo.png',
+              ).image,
             ),
           ),
           Text(
