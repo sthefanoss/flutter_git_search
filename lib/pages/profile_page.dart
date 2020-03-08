@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/custom_app_bar.dart';
 import '../models/git_user.dart';
+import '../helper/error_dialog.dart';
 import 'package:flutter_icons/flutter_icons.dart' as icons;
 import 'dart:convert' as json;
 import 'package:http/http.dart' as http;
@@ -23,14 +24,18 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> didChangeDependencies() async {
     if (_changeDependencies) {
       final user = ModalRoute.of(context).settings.arguments as String;
+      try{
       final response = await http.get('https://api.github.com/users/$user');
-      if (response.body.isEmpty) return [];
       final parsedUserData = json.jsonDecode(response.body) as Map;
       setState(() {
         _gitUser = GitUser.fromJson(parsedUserData);
         _changeDependencies = false;
       });
     }
+    catch(e){
+      await showErrorDialog(context, e);
+      Navigator.of(context).pop();
+    }}
     super.didChangeDependencies();
   }
 
@@ -75,18 +80,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         Text(
                           'Bio',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: kUserNameColor,
-                              fontWeight: FontWeight.w600),
+                          style: kProfileBioTitleTextStyle,
                         ),
                         const SizedBox(
                           height: 15,
                         ),
                         Text(
                           _gitUser.bio,
-                          style: TextStyle(
-                              fontSize: 16, color: const Color(0xFF263238)),
+                          style: kProfileBioDescriptionTextStyle,
                         ),
                       ],
                     ),

@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import '../widgets/custom_app_bar.dart';
 import '../models/user_project.dart';
 import '../widgets/project_tile.dart';
+import '../helper/error_dialog.dart';
 
 class ProjectsPage extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class ProjectsPage extends StatefulWidget {
 
 class _ProjectsPageState extends State<ProjectsPage> {
   bool _changeDependencies = true, _isLoading = false;
-  int _page = 1, _userProjectsNumber = 0;
+  int _pageIndex = 1, _userProjectsNumber = 0;
   String _userId;
   List<Project> _projects = [];
 
@@ -23,13 +24,16 @@ class _ProjectsPageState extends State<ProjectsPage> {
     setState(() {
       _isLoading = true;
     });
-    final response = await http.get(
-        'https://api.github.com/users/$_userId/repos?page=${_page++}&per_page=10');
-    print(response.body);
-    if (response.body.isEmpty) return;
-    final parsedProjectsData = json.jsonDecode(response.body) as List;
-    for (final Map projectData in parsedProjectsData)
-      _projects.add(Project.fromJson(projectData));
+    try {
+      final response = await http.get(
+          'https://api.github.com/users/$_userId/repos?page=$_pageIndex&per_page=10');
+      final parsedProjectsData = json.jsonDecode(response.body) as List;
+      for (final Map projectData in parsedProjectsData)
+        _projects.add(Project.fromJson(projectData));
+      _pageIndex++;
+    } catch (e) {
+      showErrorDialog(context, e);
+    }
     setState(() {
       _isLoading = false;
     });

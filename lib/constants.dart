@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 
+///page routes
 const kHomeRoute = '/';
 const kProfileListRoute = '/profile-list';
 const kProfileRoute = '/profile';
 const kProjectsRoute = '/projects';
-const kUserNameColor = Color(0xFF162668);
 
+///cores e estilos
+const kUserNameColor = Color(0xFF162668);
+const kProfileAttributeTextStyle =
+    TextStyle(fontSize: 16, color: kUserNameColor, fontWeight: FontWeight.w600);
+const kProfileBioTextStyle =
+    TextStyle(fontSize: 18, color: kUserNameColor, fontWeight: FontWeight.w600);
+const kProfileBioTitleTextStyle =
+    TextStyle(fontSize: 18, color: kUserNameColor, fontWeight: FontWeight.w600);
+const kProfileBioDescriptionTextStyle =
+    TextStyle(fontSize: 16, color: const Color(0xFF263238));
+
+///mapa de cores para linguagens do github
 const kColorMap = {
   "Mercury": Color(0xFFff2b2b),
   "TypeScript": Color(0xFF2b7489),
   "PureBasic": Color(0xFF5a6986),
   "C++": Color(0xFF6866fb),
-  "C#":Color(0xFF178600),
+  "C#": Color(0xFF178600),
   "Self": Color(0xFF0579aa),
   "edn": Color(0xFFdb5855),
   "NewLisp": Color(0xFF87AED7),

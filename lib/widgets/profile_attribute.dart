@@ -23,10 +23,7 @@ class ProfileAttribute extends StatelessWidget {
           Flexible(
             child: Text(
               title,
-              style: TextStyle(
-                  fontSize: 16,
-                  color: kUserNameColor,
-                  fontWeight: FontWeight.w600),
+              style: kProfileAttributeTextStyle,
             ),
           ),
           const SizedBox(
