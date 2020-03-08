@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
-Future<void> showErrorDialog(BuildContext context, Exception exception) =>
+Future<void> showErrorDialog(BuildContext context, dynamic exception) =>
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(

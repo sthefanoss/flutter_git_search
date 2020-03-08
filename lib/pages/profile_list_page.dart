@@ -5,11 +5,8 @@ import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_flat_button.dart';
 import '../widgets/custom_separated_listview.dart';
 import '../widgets/custom_text_field.dart';
-import 'dart:convert' as json;
-import 'package:http/http.dart' as http;
 import '../helper/error_dialog.dart';
-
-enum SearchType { All, Filtered }
+import '../helper/data_fetch.dart';
 
 class ProfileListPage extends StatefulWidget {
   @override
@@ -20,43 +17,10 @@ class _ProfileListPageState extends State<ProfileListPage> {
   final _searchBoxController = TextEditingController();
 
   String _lastQuery;
-  List<Map<String, dynamic>> _users = [];
+  List _users = [];
   int _pageIndex = 1, _totalCount = 0, _sinceIndex = 0;
   bool _changeDependencies = true, _isLoading = false;
   SearchType _searchType;
-
-  ///Busca os dados da API, dependendo do modo de pesquisa
-  Future<List<Map<String, dynamic>>> _fetchUsers({bool isNewSearch}) async {
-    http.Response response;
-    List<dynamic> parsedUserList;
-    try {
-      switch (_searchType) {
-        case SearchType.Filtered:
-          response = await http.get(
-              'https://api.github.com/search/users?q=${_searchBoxController.text}&page=$_pageIndex&per_page=10');
-          parsedUserList = json.jsonDecode(response.body)["items"];
-          _totalCount = json.jsonDecode(response.body)["total_count"];
-          _pageIndex++;
-          break;
-        case SearchType.All:
-          response = await http.get(
-              'https://api.github.com/users?since=$_sinceIndex&per_page=10');
-          parsedUserList = json.jsonDecode(response.body);
-          _sinceIndex = parsedUserList.last['id'];
-          break;
-      }
-      List<Map<String, dynamic>> _newUsers = [];
-      for (final parsedUser in parsedUserList)
-        _newUsers.add(
-            {'id': parsedUser['login'], 'avatarUrl': parsedUser['avatar_url']});
-
-      ///Retorna nova lista para substituir antiga, ou concatena os resultadoss
-      return isNewSearch ? _newUsers : [..._users, ..._newUsers];
-    } catch (e) {
-      showErrorDialog(context, e);
-      return [..._users];
-    }
-  }
 
   ///função para receber dados da tela anterior e aplicar função assíncrona na atual
   @override
@@ -88,8 +52,23 @@ class _ProfileListPageState extends State<ProfileListPage> {
       _isLoading = true;
     });
 
-    ///atualização de dados de fato
-    _users = await _fetchUsers(isNewSearch: isNewSearch);
+    ///atualização de dados de fato, se possível
+    try {
+      final Map dataMap = await fetchUsers(
+          isNewSearch: isNewSearch,
+          sinceIndex: _sinceIndex,
+          pageIndex: _pageIndex,
+          searchText: _lastQuery,
+          searchType: _searchType,
+          totalCount: _totalCount);
+      _users =
+          isNewSearch ? dataMap['users'] : [..._users, ...dataMap['users']];
+      _sinceIndex = dataMap['sinceIndex'];
+      _totalCount = dataMap['totalCount'];
+      _pageIndex = dataMap['pageIndex'];
+    } catch (e) {
+      await showErrorDialog(context, e);
+    }
     setState(() {
       _isLoading = false;
     });

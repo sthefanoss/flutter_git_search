@@ -1,3 +1,4 @@
+import 'package:atlas_flutter_test/helper/data_fetch.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -5,8 +6,6 @@ import '../widgets/custom_app_bar.dart';
 import '../models/git_user.dart';
 import '../helper/error_dialog.dart';
 import 'package:flutter_icons/flutter_icons.dart' as icons;
-import 'dart:convert' as json;
-import 'package:http/http.dart' as http;
 import '../widgets/profile_attribute.dart';
 import '../widgets/custom_flat_button.dart';
 import '../widgets/profile_avatar.dart';
@@ -23,19 +22,17 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Future<void> didChangeDependencies() async {
     if (_changeDependencies) {
-      final user = ModalRoute.of(context).settings.arguments as String;
-      try{
-      final response = await http.get('https://api.github.com/users/$user');
-      final parsedUserData = json.jsonDecode(response.body) as Map;
-      setState(() {
-        _gitUser = GitUser.fromJson(parsedUserData);
-        _changeDependencies = false;
-      });
+      final userId = ModalRoute.of(context).settings.arguments as String;
+      try {
+        _gitUser = await fetchGitUser(userId);
+        setState(() {
+          _changeDependencies = false;
+        });
+      } catch (e) {
+        await showErrorDialog(context, e);
+        Navigator.of(context).pop();
+      }
     }
-    catch(e){
-      await showErrorDialog(context, e);
-      Navigator.of(context).pop();
-    }}
     super.didChangeDependencies();
   }
 

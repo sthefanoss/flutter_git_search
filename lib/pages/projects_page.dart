@@ -1,9 +1,9 @@
+import 'package:atlas_flutter_test/helper/data_fetch.dart';
+
 import '../widgets/custom_separated_listview.dart';
 import '../widgets/custom_flat_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert' as json;
-import 'package:http/http.dart' as http;
 import '../widgets/custom_app_bar.dart';
 import '../models/user_project.dart';
 import '../widgets/project_tile.dart';
@@ -25,12 +25,10 @@ class _ProjectsPageState extends State<ProjectsPage> {
       _isLoading = true;
     });
     try {
-      final response = await http.get(
-          'https://api.github.com/users/$_userId/repos?page=$_pageIndex&per_page=10');
-      final parsedProjectsData = json.jsonDecode(response.body) as List;
-      for (final Map projectData in parsedProjectsData)
-        _projects.add(Project.fromJson(projectData));
-      _pageIndex++;
+      final fetchedData =
+          await fetchProjects(userId: _userId, pageIndex: _pageIndex);
+      _projects = [..._projects, ...fetchedData['projects']];
+      _pageIndex = fetchedData['pageIndex'];
     } catch (e) {
       showErrorDialog(context, e);
     }
