@@ -1,4 +1,4 @@
-package sthefanoss.atlas_flutter_test;
+package sthefanoss.flutter_git_search;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity;

@@ -1,18 +1,18 @@
-import 'package:atlas_flutter_test/pages/profile_list_page.dart';
-import 'package:atlas_flutter_test/pages/profile_page.dart';
-import 'package:atlas_flutter_test/pages/projects_page.dart';
+import 'package:flutter_git_search/pages/profile_list_page.dart';
+import 'package:flutter_git_search/pages/profile_page.dart';
+import 'package:flutter_git_search/pages/projects_page.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'pages/home_page.dart';
 
-void main() => runApp(AtlasTestApp());
+void main() => runApp(GitSearchApp());
 
-class AtlasTestApp extends StatefulWidget {
+class GitSearchApp extends StatefulWidget {
   @override
-  _AtlasTestAppState createState() => _AtlasTestAppState();
+  _GitSearchAppState createState() => _GitSearchAppState();
 }
 
-class _AtlasTestAppState extends State<AtlasTestApp> {
+class _GitSearchAppState extends State<GitSearchApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

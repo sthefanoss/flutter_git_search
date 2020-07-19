@@ -1,5 +1,4 @@
-import 'package:atlas_flutter_test/helper/data_fetch.dart';
-
+import 'package:flutter_git_search/helper/data_fetch.dart';
 import '../widgets/custom_separated_listview.dart';
 import '../widgets/custom_flat_button.dart';
 import 'package:flutter/cupertino.dart';

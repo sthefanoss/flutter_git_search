@@ -1,4 +1,4 @@
-import 'package:atlas_flutter_test/helper/data_fetch.dart';
+import 'package:flutter_git_search/helper/data_fetch.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
