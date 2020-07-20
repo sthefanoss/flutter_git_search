@@ -1,12 +1,13 @@
-import 'package:flutter_git_search/helper/data_fetch.dart';
-import '../widgets/custom_separated_listview.dart';
-import '../widgets/custom_flat_button.dart';
+import 'package:flutter_git_search/data/repository.dart';
+import 'package:get/get.dart';
+
+import '../../../../models/user_project.dart';
+import '../../../widgets/custom_separated_list_view.dart';
+import '../../../widgets/custom_flat_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../widgets/custom_app_bar.dart';
-import '../models/user_project.dart';
-import '../widgets/project_tile.dart';
-import '../helper/error_dialog.dart';
+import '../../../widgets/custom_app_bar.dart';
+import 'widgets/project_tile.dart';
 
 class ProjectsPage extends StatefulWidget {
   @override
@@ -17,20 +18,20 @@ class _ProjectsPageState extends State<ProjectsPage> {
   bool _changeDependencies = true, _isLoading = false;
   int _pageIndex = 1, _userProjectsNumber = 0;
   String _userId;
-  List<Project> _projects = [];
+  List<UserProject> _projects = [];
 
   Future<void> _fetchProjects() async {
     setState(() {
       _isLoading = true;
     });
-    try {
-      final fetchedData =
-          await fetchProjects(userId: _userId, pageIndex: _pageIndex);
-      _projects = [..._projects, ...fetchedData['projects']];
-      _pageIndex = fetchedData['pageIndex'];
-    } catch (e) {
-      showErrorDialog(context, e);
-    }
+//    try {
+    final fetchedData =
+        await Repository.fetchProjects(userId: _userId, pageIndex: _pageIndex);
+    _projects = [..._projects, ...fetchedData['projects']];
+    _pageIndex = fetchedData['pageIndex'];
+//    } catch (e) {
+//      ErrorDialog().show();
+//    }
     setState(() {
       _isLoading = false;
     });
@@ -40,9 +41,8 @@ class _ProjectsPageState extends State<ProjectsPage> {
   Future<void> didChangeDependencies() async {
     if (_changeDependencies) {
       _changeDependencies = false;
-      final userData = ModalRoute.of(context).settings.arguments as Map;
-      _userId = userData['id'];
-      _userProjectsNumber = int.parse(userData['projectsNumber']);
+      _userId = Get.parameters['userId'];
+      _userProjectsNumber = int.parse((Get.arguments as Map)['projectsNumber']);
       await _fetchProjects();
     }
     super.didChangeDependencies();

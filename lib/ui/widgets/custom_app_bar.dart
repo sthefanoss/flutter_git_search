@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({this.title});
@@ -17,9 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors.grey,
                 size: 24,
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: Get.back,
             ),
             SizedBox(
               width: 20,
@@ -37,7 +36,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Divider(
             color: Colors.black.withOpacity(0.4),
-
             thickness: 1.2,
           ),
         ),

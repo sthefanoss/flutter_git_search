@@ -1,46 +1,48 @@
 import 'package:flutter/material.dart';
-import '../constants.dart';
-import '../widgets/user_tile.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/custom_flat_button.dart';
-import '../widgets/custom_separated_listview.dart';
-import '../widgets/custom_text_field.dart';
-import '../helper/error_dialog.dart';
-import '../helper/data_fetch.dart';
+import 'package:flutter_git_search/data/repository.dart';
+import 'package:flutter_git_search/models/user_search.dart';
+import 'package:flutter_git_search/routes/route_names.dart';
+import 'package:flutter_git_search/ui/widgets/error_dialog.dart';
+import 'package:get/get.dart';
 
-class ProfileListPage extends StatefulWidget {
+import 'widgets/user_tile.dart';
+import '../../widgets/custom_app_bar.dart';
+import '../../widgets/custom_flat_button.dart';
+import '../../widgets/custom_separated_list_view.dart';
+import '../../widgets/custom_text_field.dart';
+
+class SearchPage extends StatefulWidget {
   @override
-  _ProfileListPageState createState() => _ProfileListPageState();
+  _SearchPageState createState() => _SearchPageState();
 }
 
-class _ProfileListPageState extends State<ProfileListPage> {
+class _SearchPageState extends State<SearchPage> {
   final _searchBoxController = TextEditingController();
 
   String _lastQuery;
   List _users = [];
   int _pageIndex = 1, _totalCount = 0, _sinceIndex = 0;
   bool _changeDependencies = true, _isLoading = false;
-  SearchType _searchType;
+  UserSearchType _userSearchType;
 
-  ///função para receber dados da tela anterior e aplicar função assíncrona na atual
   @override
   Future<void> didChangeDependencies() async {
     if (_changeDependencies) {
       _changeDependencies = false;
-      final search = ModalRoute.of(context).settings.arguments;
+      final String search = Get.arguments;
       _searchBoxController.text = search is String ? search : '';
       await _search(isNewSearch: true);
     }
     super.didChangeDependencies();
   }
 
-  ///Função que lida com os estados para atualizar a tela e receber novos dados
   Future<void> _search({bool isNewSearch}) async {
     ///Se o usuário tentar 'VER MAIS' com uma pesquisa diferente, isso irá
     ///garantir a persistência na pesquisa antiga
     if (isNewSearch) {
       _lastQuery = _searchBoxController.text;
-      _searchType = _lastQuery.isEmpty ? SearchType.All : SearchType.Filtered;
+      _userSearchType =
+          _lastQuery.isEmpty ? UserSearchType.all : UserSearchType.filtered;
       _pageIndex = 1;
       _sinceIndex = 0;
     } else
@@ -53,22 +55,24 @@ class _ProfileListPageState extends State<ProfileListPage> {
     });
 
     ///atualização de dados de fato, se possível
-    try {
-      final Map dataMap = await fetchUsers(
+//    try {
+    final Map dataMap = await Repository.fetchUsers(
+      UserSearch(
           isNewSearch: isNewSearch,
           sinceIndex: _sinceIndex,
           pageIndex: _pageIndex,
           searchText: _lastQuery,
-          searchType: _searchType,
-          totalCount: _totalCount);
-      _users =
-          isNewSearch ? dataMap['users'] : [..._users, ...dataMap['users']];
-      _sinceIndex = dataMap['sinceIndex'];
-      _totalCount = dataMap['totalCount'];
-      _pageIndex = dataMap['pageIndex'];
-    } catch (e) {
-      await showErrorDialog(context, e);
-    }
+          type: _userSearchType,
+          totalCount: _totalCount),
+    );
+    _users = isNewSearch ? dataMap['users'] : [..._users, ...dataMap['users']];
+    _sinceIndex = dataMap['sinceIndex'];
+    _totalCount = dataMap['totalCount'];
+    _pageIndex = dataMap['pageIndex'];
+    print(_users);
+//    } catch (e) {print(e);
+//      await ErrorDialog().show();
+//    }
     setState(() {
       _isLoading = false;
     });
@@ -100,10 +104,10 @@ class _ProfileListPageState extends State<ProfileListPage> {
                 isLoading: _isLoading,
                 itemCount: _users.length,
                 itemBuilder: (ctx, n) => UserTile(
-                  user: _users[n]['id'],
+                  user: _users[n]['login'],
                   avatarUrl: _users[n]['avatarUrl'],
-                  onTap: () => Navigator.of(context)
-                      .pushNamed(kProfileRoute, arguments: _users[n]['id']),
+                  onTap: () => Get.toNamed(
+                      RouteNames.profile(_users[n]['login'].toString())),
                 ),
               ),
             ),
@@ -111,7 +115,7 @@ class _ProfileListPageState extends State<ProfileListPage> {
               text: 'Ver Mais',
               onPressed: _isLoading ||
                       (_users.length >= _totalCount &&
-                          _searchType == SearchType.Filtered)
+                          _userSearchType == UserSearchType.filtered)
                   ? null
                   : () => _search(isNewSearch: false),
             )

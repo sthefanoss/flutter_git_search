@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../constants.dart';
+import 'package:flutter_git_search/constants/colors.dart';
+import 'package:flutter_git_search/constants/text_styles.dart';
 
 class ProfileAttribute extends StatelessWidget {
   ProfileAttribute({this.title, this.iconData, this.content});
@@ -9,13 +10,14 @@ class ProfileAttribute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: <Widget>[
           Icon(
             iconData,
-            color: kUserNameColor,
+            color:  AppColors.darkPrimary,
           ),
           const SizedBox(
             width: 20,
@@ -23,7 +25,7 @@ class ProfileAttribute extends StatelessWidget {
           Flexible(
             child: Text(
               title,
-              style: kProfileAttributeTextStyle,
+              style: AppTextStyles.profileAttribute,
             ),
           ),
           const SizedBox(

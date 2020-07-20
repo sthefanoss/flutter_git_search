@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../constants.dart';
-import '../models/user_project.dart';
+import 'package:flutter_git_search/constants/colors.dart';
+
+import '../../../../../models/user_project.dart';
 
 class ProjectTile extends StatelessWidget {
   const ProjectTile(this.project);
-  final Project project;
+  final UserProject project;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class ProjectTile extends StatelessWidget {
                           height: 10,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: kColorMap[project.language],
+                            color: AppColors.programingColors[project.language],
                           ),
                         ),
                         SizedBox(

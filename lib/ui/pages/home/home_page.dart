@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
-import '../widgets/git_search_logo.dart';
-import '../widgets/custom_text_field.dart';
-import '../widgets/custom_flat_button.dart';
+import 'package:flutter_git_search/routes/route_names.dart';
+import 'package:get/get.dart';
+import 'widgets/git_search_logo.dart';
+import '../../widgets/custom_text_field.dart';
+import '../../widgets/custom_flat_button.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,11 +15,7 @@ class _HomePageState extends State<HomePage> {
   final _searchBoxController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  void _seeAll(BuildContext context) {
-    Navigator.of(context).pushNamed(kProfileListRoute);
-  }
-
-  void _search(BuildContext context) {
+  void _search() {
     if (_searchBoxController.text.isEmpty) {
       FocusScope.of(context).requestFocus(FocusNode());
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -26,8 +23,10 @@ class _HomePageState extends State<HomePage> {
         duration: Duration(seconds: 1),
       ));
     } else
-      Navigator.of(context)
-          .pushNamed(kProfileListRoute, arguments: _searchBoxController.text);
+      Get.toNamed(
+        RouteNames.search(),
+        arguments: _searchBoxController.text,
+      );
   }
 
   @override
@@ -61,7 +60,7 @@ class _HomePageState extends State<HomePage> {
               width: double.infinity,
               child: CustomFlatButton(
                 text: 'Ver Todos',
-                onPressed: () => _seeAll(context),
+                onPressed: () => Get.toNamed(RouteNames.search()),
               ),
             ),
           ),
@@ -70,11 +69,17 @@ class _HomePageState extends State<HomePage> {
               width: double.infinity,
               child: CustomFlatButton(
                 text: 'Buscar',
-                onPressed: () => _search(context),
+                onPressed: _search,
                 color: Theme.of(context).accentColor,
               ),
             ),
           )
         ],
       );
+
+  @override
+  void dispose() {
+    _searchBoxController.dispose();
+    super.dispose();
+  }
 }

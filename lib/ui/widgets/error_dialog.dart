@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
-import '../constants.dart';
+import 'package:flutter_git_search/constants/text_styles.dart';
+import 'package:get/get.dart';
+
+class ErrorDialog<T> extends AlertDialog {
+  Future<T> show() async {}
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
 
 Future<void> showErrorDialog(BuildContext context, dynamic exception) =>
     showDialog(
@@ -7,11 +17,11 @@ Future<void> showErrorDialog(BuildContext context, dynamic exception) =>
         builder: (ctx) => AlertDialog(
               title: Text(
                 'Erro',
-                style: kProfileAttributeTextStyle,
+                style: AppTextStyles.profileAttribute,
               ),
               content: Text(
                 exception.toString(),
-                style: kProfileBioDescriptionTextStyle,
+                style: AppTextStyles.profileBioDescription,
               ),
               actions: <Widget>[
                 FlatButton(
@@ -19,9 +29,7 @@ Future<void> showErrorDialog(BuildContext context, dynamic exception) =>
                     'Ok',
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: Get.back,
                 )
               ],
             ));

@@ -1,14 +1,19 @@
-import 'package:flutter_git_search/helper/data_fetch.dart';
+import 'package:flutter_git_search/constants/text_styles.dart';
+import 'package:flutter_git_search/data/repository.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
-import '../widgets/custom_app_bar.dart';
-import '../models/git_user.dart';
-import '../helper/error_dialog.dart';
+import 'package:flutter_git_search/models/git_user.dart';
+import 'package:flutter_git_search/routes/route_names.dart';
+import 'package:flutter_git_search/ui/widgets/error_dialog.dart';
+import 'package:get/get.dart';
+
+import '../../../widgets/custom_app_bar.dart';
+
 import 'package:flutter_icons/flutter_icons.dart' as icons;
-import '../widgets/profile_attribute.dart';
-import '../widgets/custom_flat_button.dart';
-import '../widgets/profile_avatar.dart';
+import 'widgets/profile_attribute.dart';
+import '../../../widgets/custom_flat_button.dart';
+import 'widgets/profile_avatar.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -22,25 +27,26 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Future<void> didChangeDependencies() async {
     if (_changeDependencies) {
-      final userId = ModalRoute.of(context).settings.arguments as String;
+      final userId = Get.parameters['userId'];
       try {
-        _gitUser = await fetchGitUser(userId);
+        _gitUser = await Repository.fetchGitUser(userId);
         setState(() {
           _changeDependencies = false;
         });
       } catch (e) {
-        await showErrorDialog(context, e);
-        Navigator.of(context).pop();
+        await ErrorDialog().show();
       }
     }
     super.didChangeDependencies();
   }
 
   void _navigateToProjects(BuildContext context) {
-    Navigator.of(context).pushNamed(kProjectsRoute, arguments: {
-      'id': _gitUser.id,
-      'projectsNumber': _gitUser.projectsNumber
-    });
+    Get.toNamed(
+      RouteNames.projects(_gitUser.id),
+      arguments: {
+        'projectsNumber': _gitUser.projectsNumber,
+      },
+    );
   }
 
   @override
@@ -77,14 +83,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         Text(
                           'Bio',
-                          style: kProfileBioTitleTextStyle,
+                          style: AppTextStyles.profileBioTitle,
                         ),
                         const SizedBox(
                           height: 15,
                         ),
                         Text(
                           _gitUser.bio,
-                          style: kProfileBioDescriptionTextStyle,
+                          style: AppTextStyles.profileBioDescription,
                         ),
                       ],
                     ),

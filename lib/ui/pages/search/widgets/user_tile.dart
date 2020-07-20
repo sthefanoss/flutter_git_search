@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants.dart';
+import 'package:flutter_git_search/constants/colors.dart';
 
 class UserTile extends StatelessWidget {
   const UserTile({this.user, this.avatarUrl, this.onTap});
@@ -12,8 +12,8 @@ class UserTile extends StatelessWidget {
         ListTile(
           title: Text(
             user,
-            style:
-                TextStyle(color: kUserNameColor, fontWeight: FontWeight.w600),
+            style: TextStyle(
+                color: AppColors.darkPrimary, fontWeight: FontWeight.w600),
           ),
           onTap: onTap,
           leading: Container(

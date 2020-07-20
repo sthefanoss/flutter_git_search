@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants.dart';
+import 'package:flutter_git_search/constants/colors.dart';
 
 class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({this.name, this.id, this.avatarUrl});
@@ -38,7 +38,7 @@ class ProfileAvatar extends StatelessWidget {
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
-                  color: kUserNameColor),
+                  color: AppColors.darkPrimary),
             ),
           ),
           Row(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_git_search/constants/images.dart';
 
 class GitSearchLogo extends StatelessWidget {
   @override
@@ -14,7 +15,7 @@ class GitSearchLogo extends StatelessWidget {
               radius: 70,
               backgroundColor: Colors.transparent,
               backgroundImage: Image.asset(
-                'assets/images/git_logo.png',
+                AppImages.gitLogo,
               ).image,
             ),
           ),
