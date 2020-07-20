@@ -30,6 +30,5 @@ class GitUser {
         this.fallowingNumber = json['following'].toString(),
         this.followersNumber = json['followers'].toString(),
         this.projectsNumber = json['public_repos'].toString(),
-        this.blog =
-            json['blog'] == "" ? 'Sem blog pessoal' : json['blog'];
+        this.blog = json['blog'] == "" ? 'Sem blog pessoal' : json['blog'];
 }
