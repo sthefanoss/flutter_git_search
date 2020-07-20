@@ -57,6 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.9"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -74,13 +81,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  http:
+  get:
     dependency: "direct main"
     description:
-      name: http
+      name: get
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0+4"
+    version: "3.3.0"
   http_parser:
     dependency: transitive
     description:
@@ -116,13 +123,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.4"
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.8.0+1"
   petitparser:
     dependency: transitive
     description:
