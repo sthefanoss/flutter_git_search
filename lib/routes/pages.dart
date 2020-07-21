@@ -1,3 +1,5 @@
+import 'package:flutter_git_search/routes/bindings/git_user_bindings.dart';
+import 'package:flutter_git_search/routes/bindings/search_bindings.dart';
 import 'package:flutter_git_search/routes/route_names.dart';
 import 'package:flutter_git_search/ui/pages/home/home_page.dart';
 import 'package:flutter_git_search/ui/pages/search/search_page.dart';
@@ -13,13 +15,16 @@ List<GetPage> get pages => [
       GetPage(
         page: () => SearchPage(),
         name: RouteNames.search(),
+        binding: SearchBindings(),
       ),
       GetPage(
         page: () => ProfilePage(),
         name: RouteNames.profile(),
+        binding: GitUserBindings(),
       ),
       GetPage(
         page: () => ProjectsPage(),
         name: RouteNames.projects(),
+        binding: GitUserBindings(),
       ),
     ];

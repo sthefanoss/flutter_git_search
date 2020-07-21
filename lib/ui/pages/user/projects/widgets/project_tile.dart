@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_git_search/constants/colors.dart';
 
-import '../../../../../models/user_project.dart';
+import '../../../../../models/project.dart';
 
 class ProjectTile extends StatelessWidget {
   const ProjectTile(this.project);
-  final UserProject project;
+  final Project project;
 
   @override
   Widget build(BuildContext context) {

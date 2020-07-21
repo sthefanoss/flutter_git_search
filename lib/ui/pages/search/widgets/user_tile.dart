@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_git_search/constants/colors.dart';
+import 'package:flutter_git_search/models/user.dart';
 
 class UserTile extends StatelessWidget {
-  const UserTile({this.user, this.avatarUrl, this.onTap});
-  final String user, avatarUrl;
+  const UserTile({this.user, this.onTap});
+  final User user;
   final Function onTap;
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class UserTile extends StatelessWidget {
       children: <Widget>[
         ListTile(
           title: Text(
-            user,
+            user.login,
             style: TextStyle(
                 color: AppColors.darkPrimary, fontWeight: FontWeight.w600),
           ),
@@ -21,7 +22,7 @@ class UserTile extends StatelessWidget {
               radius: 25, backgroundColor: Colors.white,
               backgroundImage: FadeInImage.assetNetwork(
                 placeholder: 'assets/images/git_logo.png',
-                image: avatarUrl,
+                image: user.avatarUrl,
               ).image,
 
               // backgroundColor: Colors.transparent,

@@ -1,16 +1,23 @@
-class UserProject {
-  const UserProject(
-      {this.updatedAt, this.language, this.name, this.description});
+class Project {
   final String name;
   final String description;
   final String language;
   final DateTime updatedAt;
 
-  String get updatedAtToString =>
-      "${_putZero(updatedAt.day)}/${_putZero(updatedAt.month)}/${updatedAt.year}";
+  String get updatedAtToString {
+    return '${_putZero(updatedAt.day)}/${_putZero(updatedAt.month)}/${updatedAt.year}';
+  }
+
   static String _putZero(int number) => number < 10 ? "0$number" : "$number";
 
-  UserProject.fromJson(Map json)
+  const Project({
+    this.updatedAt,
+    this.language,
+    this.name,
+    this.description,
+  });
+
+  Project.fromJson(Map json)
       : this.name = json['name'],
         this.updatedAt = DateTime.parse(json['updated_at']),
         this.description = json['description'] ?? "Sem descrição.",

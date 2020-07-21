@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_git_search/routes/route_names.dart';
+import 'package:flutter_git_search/ui/widgets/custom_flat_button.dart';
+import 'package:flutter_git_search/ui/widgets/custom_text_field.dart';
 import 'package:get/get.dart';
 import 'widgets/git_search_logo.dart';
-import '../../widgets/custom_text_field.dart';
-import '../../widgets/custom_flat_button.dart';
 
 class HomePage extends StatefulWidget {
   @override
