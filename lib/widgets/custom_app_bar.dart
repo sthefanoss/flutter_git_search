@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({this.title});
+  const CustomAppBar({super.key, required this.title});
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -12,7 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         Row(
           children: <Widget>[
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back,
                 color: Colors.grey,
                 size: 24,
@@ -21,15 +20,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Navigator.of(context).pop();
               },
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             Text(
               title,
-              style: Theme.of(context)
-                  .textTheme
-                  .title
-                  .copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             )
           ],
         ),
@@ -37,7 +33,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Divider(
             color: Colors.black.withOpacity(0.4),
-
             thickness: 1.2,
           ),
         ),
@@ -46,5 +41,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size(double.infinity, 75);
+  Size get preferredSize => const Size(double.infinity, 75);
 }

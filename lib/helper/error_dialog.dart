@@ -5,7 +5,7 @@ Future<void> showErrorDialog(BuildContext context, dynamic exception) =>
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-              title: Text(
+              title: const Text(
                 'Erro',
                 style: kProfileAttributeTextStyle,
               ),
@@ -14,7 +14,7 @@ Future<void> showErrorDialog(BuildContext context, dynamic exception) =>
                 style: kProfileBioDescriptionTextStyle,
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text(
                     'Ok',
                     style: TextStyle(color: Theme.of(context).primaryColor),

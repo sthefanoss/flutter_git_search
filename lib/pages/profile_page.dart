@@ -1,28 +1,28 @@
 import 'package:flutter_git_search/helper/data_fetch.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/custom_app_bar.dart';
 import '../models/git_user.dart';
 import '../helper/error_dialog.dart';
-import 'package:flutter_icons/flutter_icons.dart' as icons;
 import '../widgets/profile_attribute.dart';
 import '../widgets/custom_flat_button.dart';
 import '../widgets/profile_avatar.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  GitUser _gitUser;
+  late GitUser _gitUser;
   bool _changeDependencies = true;
 
   @override
   Future<void> didChangeDependencies() async {
     if (_changeDependencies) {
-      final userId = ModalRoute.of(context).settings.arguments as String;
+      final userId = ModalRoute.of(context)!.settings.arguments as String;
       try {
         _gitUser = await fetchGitUser(userId);
         setState(() {
@@ -36,10 +36,10 @@ class _ProfilePageState extends State<ProfilePage> {
     super.didChangeDependencies();
   }
 
-  void _navigateToProjects(BuildContext context) {
+  void _navigateToProjects() {
     Navigator.of(context).pushNamed(kProjectsRoute, arguments: {
       'id': _gitUser.id,
-      'projectsNumber': _gitUser.projectsNumber
+      'projectsNumber': _gitUser.projectsNumber,
     });
   }
 
@@ -47,9 +47,9 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(title: 'Perfil'),
+        appBar: const CustomAppBar(title: 'Perfil'),
         body: _changeDependencies
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : ListView(
                 children: <Widget>[
                   ProfileAvatar(
@@ -57,13 +57,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     avatarUrl: _gitUser.avatarUrl,
                     id: _gitUser.id,
                   ),
-                  SizedBox(
-                    width: double.infinity,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: CustomFlatButton(
                       text: 'Ver Projetos',
-                      onPressed: _gitUser.projectsNumber == '0'
-                          ? null
-                          : () => _navigateToProjects(context),
+                      onPressed: _gitUser.projectsNumber == '0' ? null : _navigateToProjects,
                     ),
                   ),
                   Padding(
@@ -75,7 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(
                           height: 30,
                         ),
-                        Text(
+                        const Text(
                           'Bio',
                           style: kProfileBioTitleTextStyle,
                         ),
@@ -98,25 +96,25 @@ class _ProfilePageState extends State<ProfilePage> {
   List<Widget> _generateAttributes() => [
         ProfileAttribute(
           title: _gitUser.location,
-          iconData: Icons.home,
+          iconData: Icons.place,
         ),
         ProfileAttribute(
           title: _gitUser.blog.toString(),
-          iconData: Icons.phonelink,
+          iconData: Icons.link,
         ),
         ProfileAttribute(
           title: 'Seguidores',
-          iconData: icons.Feather.users,
+          iconData: Icons.people,
           content: _gitUser.followersNumber,
         ),
         ProfileAttribute(
           title: 'Seguindo',
-          iconData: icons.Feather.user,
+          iconData: Icons.people,
           content: _gitUser.fallowingNumber,
         ),
         ProfileAttribute(
           title: 'Projetos',
-          iconData: icons.Feather.folder,
+          iconData: Icons.folder_copy,
           content: _gitUser.projectsNumber,
         )
       ];

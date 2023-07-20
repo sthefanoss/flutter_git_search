@@ -8,14 +8,10 @@ const kProjectsRoute = '/projects';
 
 ///cores e estilos
 const kUserNameColor = Color(0xFF162668);
-const kProfileAttributeTextStyle =
-    TextStyle(fontSize: 16, color: kUserNameColor, fontWeight: FontWeight.w600);
-const kProfileBioTextStyle =
-    TextStyle(fontSize: 18, color: kUserNameColor, fontWeight: FontWeight.w600);
-const kProfileBioTitleTextStyle =
-    TextStyle(fontSize: 18, color: kUserNameColor, fontWeight: FontWeight.w600);
-const kProfileBioDescriptionTextStyle =
-    TextStyle(fontSize: 16, color: const Color(0xFF263238));
+const kProfileAttributeTextStyle = TextStyle(fontSize: 16, color: kUserNameColor, fontWeight: FontWeight.w600);
+const kProfileBioTextStyle = TextStyle(fontSize: 18, color: kUserNameColor, fontWeight: FontWeight.w600);
+const kProfileBioTitleTextStyle = TextStyle(fontSize: 18, color: kUserNameColor, fontWeight: FontWeight.w600);
+const kProfileBioDescriptionTextStyle = TextStyle(fontSize: 16, color: Color(0xFF263238));
 
 ///mapa de cores para linguagens do github
 const kColorMap = {

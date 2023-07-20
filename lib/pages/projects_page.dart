@@ -1,7 +1,6 @@
 import 'package:flutter_git_search/helper/data_fetch.dart';
 import '../widgets/custom_separated_listview.dart';
 import '../widgets/custom_flat_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_app_bar.dart';
 import '../models/user_project.dart';
@@ -9,6 +8,8 @@ import '../widgets/project_tile.dart';
 import '../helper/error_dialog.dart';
 
 class ProjectsPage extends StatefulWidget {
+  const ProjectsPage({super.key});
+
   @override
   _ProjectsPageState createState() => _ProjectsPageState();
 }
@@ -16,7 +17,7 @@ class ProjectsPage extends StatefulWidget {
 class _ProjectsPageState extends State<ProjectsPage> {
   bool _changeDependencies = true, _isLoading = false;
   int _pageIndex = 1, _userProjectsNumber = 0;
-  String _userId;
+  late String _userId;
   List<Project> _projects = [];
 
   Future<void> _fetchProjects() async {
@@ -24,8 +25,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
       _isLoading = true;
     });
     try {
-      final fetchedData =
-          await fetchProjects(userId: _userId, pageIndex: _pageIndex);
+      final fetchedData = await fetchProjects(userId: _userId, pageIndex: _pageIndex);
       _projects = [..._projects, ...fetchedData['projects']];
       _pageIndex = fetchedData['pageIndex'];
     } catch (e) {
@@ -40,7 +40,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
   Future<void> didChangeDependencies() async {
     if (_changeDependencies) {
       _changeDependencies = false;
-      final userData = ModalRoute.of(context).settings.arguments as Map;
+      final userData = ModalRoute.of(context)!.settings.arguments as Map;
       _userId = userData['id'];
       _userProjectsNumber = int.parse(userData['projectsNumber']);
       await _fetchProjects();
@@ -52,8 +52,8 @@ class _ProjectsPageState extends State<ProjectsPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: CustomAppBar(
+      resizeToAvoidBottomInset: false,
+      appBar: const CustomAppBar(
         title: 'Projetos',
       ),
       body: Column(
@@ -63,14 +63,16 @@ class _ProjectsPageState extends State<ProjectsPage> {
             child: CustomSeparatedListView(
               isLoading: _isLoading,
               itemCount: _projects.length,
-              itemBuilder: (ctx, n) => ProjectTile(_projects[n]),
+              itemBuilder: (ctx, n) => ProjectTile(project: _projects[n]),
             ),
           ),
-          CustomFlatButton(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustomFlatButton(
               text: 'Ver Mais',
-              onPressed: _isLoading || _projects.length >= _userProjectsNumber
-                  ? null
-                  : _fetchProjects),
+              onPressed: _isLoading || _projects.length >= _userProjectsNumber ? null : _fetchProjects,
+            ),
+          ),
         ],
       ),
     ));

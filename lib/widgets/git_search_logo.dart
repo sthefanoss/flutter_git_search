@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GitSearchLogo extends StatelessWidget {
+  const GitSearchLogo({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,10 +22,10 @@ class GitSearchLogo extends StatelessWidget {
           Text(
             'GitSearch',
             textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .display3
-                .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
           ),
         ],
       ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/git_search_logo.dart';
@@ -6,6 +5,8 @@ import '../widgets/custom_text_field.dart';
 import '../widgets/custom_flat_button.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -14,20 +15,18 @@ class _HomePageState extends State<HomePage> {
   final _searchBoxController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  void _seeAll(BuildContext context) {
+  void _seeAll() {
     Navigator.of(context).pushNamed(kProfileListRoute);
   }
 
-  void _search(BuildContext context) {
-    if (_searchBoxController.text.isEmpty) {
-      FocusScope.of(context).requestFocus(FocusNode());
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text('Escreva alguma coisa!'),
-        duration: Duration(seconds: 1),
-      ));
-    } else
-      Navigator.of(context)
-          .pushNamed(kProfileListRoute, arguments: _searchBoxController.text);
+  void _search() {
+    Navigator.of(context).pushNamed(kProfileListRoute, arguments: _searchBoxController.text);
+  }
+
+  @override
+  void dispose() {
+    _searchBoxController.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,45 +35,45 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         key: _scaffoldKey,
         body: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           children: <Widget>[
-            GitSearchLogo(),
-            Padding(
-              padding: const EdgeInsets.only(right: 30, left: 30),
-              child: CustomTextField(
-                  controller: _searchBoxController, showIcon: false),
+            const GitSearchLogo(),
+            CustomTextField(
+              controller: _searchBoxController,
+              showIcon: false,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-              child: _generateButtons(),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: CustomFlatButton(
+                    text: 'Ver Todos',
+                    onPressed: _seeAll,
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: ListenableBuilder(
+                    listenable: _searchBoxController,
+                    builder: (_, __) {
+                      // Using [ListenableBuilder] to update bellow button when user change text input.
+                      // It works because [_searchBoxController] emits a event every time text change.
+
+                      final hasInput = _searchBoxController.text.isNotEmpty;
+                      return CustomFlatButton(
+                        text: 'Buscar',
+                        onPressed: hasInput ? _search : null,
+                        color: Theme.of(context).colorScheme.secondary,
+                      );
+                    },
+                  ),
+                )
+              ],
             ),
           ],
         ),
       ),
     );
   }
-
-  Widget _generateButtons() => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Flexible(
-            child: SizedBox(
-              width: double.infinity,
-              child: CustomFlatButton(
-                text: 'Ver Todos',
-                onPressed: () => _seeAll(context),
-              ),
-            ),
-          ),
-          Flexible(
-            child: SizedBox(
-              width: double.infinity,
-              child: CustomFlatButton(
-                text: 'Buscar',
-                onPressed: () => _search(context),
-                color: Theme.of(context).accentColor,
-              ),
-            ),
-          )
-        ],
-      );
 }

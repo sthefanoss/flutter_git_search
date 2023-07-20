@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'pages/home_page.dart';
 
-void main() => runApp(GitSearchApp());
+void main() => runApp(const GitSearchApp());
 
 class GitSearchApp extends StatefulWidget {
+  const GitSearchApp({super.key});
+
   @override
-  _GitSearchAppState createState() => _GitSearchAppState();
+  State<GitSearchApp> createState() => _GitSearchAppState();
 }
 
 class _GitSearchAppState extends State<GitSearchApp> {
@@ -18,9 +20,12 @@ class _GitSearchAppState extends State<GitSearchApp> {
     return MaterialApp(
       title: 'GitSearch',
       theme: ThemeData(
-          fontFamily: "Montserrat",
-          primaryColor: const Color(0xFF344FA5),
-          accentColor: const Color(0xFF6FCF97)),
+        fontFamily: "Montserrat",
+        colorScheme: const ColorScheme.light().copyWith(
+          primary: const Color(0xFF344FA5),
+          secondary: const Color(0xFF6FCF97),
+        ),
+      ),
       routes: {
         kHomeRoute: (ctx) => HomePage(),
         kProfileListRoute: (ctx) => ProfileListPage(),
